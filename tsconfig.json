@@ -21,6 +21,8 @@
     "jsx": "react-jsx"
   },
   "include": [
-    "src"
-  ]
+    "src/**/*.ts",
+    "src/**/*.tsx", "src/components/NavBar.jsx",     
+  ],
+  "exclude": ["node_modules"]
 }
