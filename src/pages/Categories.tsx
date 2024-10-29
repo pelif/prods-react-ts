@@ -4,11 +4,17 @@ import { Category } from "../services/types.category";
 import { fetchCategories, addCategory } from "../services/categories";
 import ListCategory from "../components/ListCategory";
 
+interface CategoriesProps {
+    openModal: (type: string) => boolean;
+    closeModal: () => void; 
+}
 
-const Categories: React.FC = () => {
 
-    const [categories, setCategories] = useState<Category[]>([]);
+// const Categories: React.FC = () => {
+const Categories = ({ openModal, closeModal }: CategoriesProps) => {
 
+    const [categories, setCategories] = useState<Category[]>([]);    
+   
     useEffect(() => {
         const loadCategories = async () => {
             try {
@@ -27,7 +33,10 @@ const Categories: React.FC = () => {
                 <h1 className="my-3"><i className="bi bi-bar-chart-steps ms-5 me-5 my-5"></i>Categories</h1>
             </div>            
             <FormCategory />
-            <ListCategory categories={categories} />
+            <ListCategory 
+                categories={categories} 
+                openModal={openModal} 
+                closeModal={closeModal}/>
         </div>
     );
 };
