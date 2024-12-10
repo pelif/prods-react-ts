@@ -22,17 +22,15 @@ export const fetchCategories = async (): Promise<Category[]> => {
 }; 
 
 export const addCategory = async (category: Category): Promise<Category> => {
-    const response = await fetch(`${API_URL}/categories`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(category)
+  try {
+    const response = await axios.post(`${API_URL}/categories`, category, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
     });
 
-    if(!response.ok) {
-        throw new Error(`Failed to add category: ${response.statusText}`);
-    }   
-
-    return await response.json();
-}; 
+    return response.data;
+  } catch (error) {
+    throw new Error(`Failed to add category: ${error}`);
+  }
+};

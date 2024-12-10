@@ -13,7 +13,22 @@ interface CategoriesProps {
 // const Categories: React.FC = () => {
 const Categories = ({ openModal, closeModal }: CategoriesProps) => {
 
-    const [categories, setCategories] = useState<Category[]>([]);    
+    const [categories, setCategories] = useState<Category[]>([]);   
+    
+    const [category, setCategory] = useState<Category>({ id: Math.random().toString(), name: '' }); 
+    const [error, setError] = useState(null);
+
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+    
+        try {       
+            const newCategory = await addCategory(category);
+            console.log("Categoria adicionada:", newCategory);
+            setCategory({ id: Math.random().toString(), name: '' });
+        } catch (error) {
+            console.error("Erro ao adicionar categoria:", error);
+        }
+    }; 
    
     useEffect(() => {
         const loadCategories = async () => {

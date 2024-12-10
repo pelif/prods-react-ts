@@ -10,13 +10,15 @@ import Products from './pages/Products';
 import Modal from './components/Modal';
 import FormCategory from './components/FormCategory';
 import FormProduct from './components/FormProduct';
+import { Category } from './services/types.category';
 
-function App() {
+import { addCategory } from './services/categories';
+
+function App() {  
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalChildren, setModalChildren] = useState(null);
   const [modalContentType, setModalContentType] = React.useState<JSX.Element | null>(null);
-
   
   const openModal = (type: string): boolean => {
     setIsModalOpen(true);
