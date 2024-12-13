@@ -1,22 +1,19 @@
 import React from 'react';
 
 import { Category } from '../services/types.category';
-import Modal from './Modal';
+import Modal from './ModalCategory';
 import FormCategory from './FormCategory';
 
 interface ListCategoryProps {
     categories: Category[];
-    openModal: (type: string) => boolean; 
+    isOpen: boolean; 
+    openModal: () => void;
     closeModal: () => void;
 }
 
 // const ListCategory: React.FC<ListCategoryProps> =  ({categories}) => {
 
-const ListCategory =  ({categories, openModal, closeModal}: ListCategoryProps) => {
-
-    const handleOpenModal = (type: string) => {
-        openModal(type);
-    }; 
+const ListCategory =  ({categories, isOpen, openModal, closeModal}: ListCategoryProps) => {
    
     return (
        <>
@@ -30,14 +27,14 @@ const ListCategory =  ({categories, openModal, closeModal}: ListCategoryProps) =
 
           <tbody>
             {categories.length > 0 ? (            
-                categories.map((category) => (                   
-                    <tr key={category.id} className="py-5 px-5">
+                categories.map((category, index) => (                   
+                    <tr key={index} className="py-5 px-5">
                         <td>{category.name}</td>
                         <td>
                             <i 
                                 className="bi bi-pencil me-4" 
                                 role='button'
-                                onClick={() => handleOpenModal('category')}></i>
+                                onClick={openModal}></i>
 
                             <i 
                                 className='bi bi-trash' 

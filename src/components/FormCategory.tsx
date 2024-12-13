@@ -1,42 +1,53 @@
 import React, { useState } from "react";
 import { addCategory } from "../services/categories";
 import { Category } from "../services/types.category";
+import ModalCategory from "./ModalCategory";
 
-const FormCategory = () => {
+interface FormCategoryProps {
+    categories: Category[];
+    setCategories: (categories: Category[]) => void;
+    category: Category | null;
+    handleSubmitCategory: (event: React.FormEvent<HTMLFormElement>) => void;
+    setCategory: (category: Category | null) => void;
+  }
 
-    const [category, setCategory] = useState(""); 
-    const [error, setError] = useState(null);
+const FormCategory = ({ 
+    categories,
+    setCategories,
+    category,
+    handleSubmitCategory,
+    setCategory,
+}: FormCategoryProps) => {
 
-    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
+    const [name, setName] = useState('');
+    
+    const [error, setError] = useState(null);    
 
-        try {
-            const fakeCategory: Category = {
-                id: Math.random().toString(),
-                name: category
-            }; 
-            const newCategory = await addCategory(fakeCategory);
-            console.log("Categoria adicionada:", newCategory);
-            setCategory("");
-        } catch (error) {
-            console.error("Erro ao adicionar categoria:", error);
+    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (category) {            
+            setCategory({ ...category, name: event.target.value });
+            console.log(category);
+        } else {            
+            setCategory({ id: Math.random().toString(), name: event.target.value });
         }
-    }; 
+    };
 
     return (
-        <div className="row align-items-center mt-5">
-            <form onSubmit={handleSubmit}>
-                <div className="mb-3">
+        <div className="row align-items-center mt-5 w-75">            
+            
+            <form onSubmit={handleSubmitCategory}>
+                <div className="col-md-12">
                     <input
                         className="form-control me-2 p-3 border border-success"
                         type="text"
-                        value={category}
+                        value={category ? category.name : ""}
                         placeholder="Digite a categoria"
-                        onChange={(event) => setCategory(event.target.value)}/>                    
+                        onChange={handleInputChange}
+                        required/>                    
                 </div>
-                <div className="mb-3 mt-5">
+                <div className="col-md-12 mt-5">
                     <button 
-                        className="btn btn-outline-success p-3 fw-bold" 
+                        className="btn btn-outline-success p-3 fw-bold w-100" 
                         type="submit">
                         Salvar Categoria
                     </button>
